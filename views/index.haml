@@ -1,0 +1,17 @@
+.card{ style: 'width: 80%; margin: 20px auto;' }
+  .card-header
+    Evaluate mathematical formula
+  .card-body
+    %form{ action: '/evaluate', method: 'post' }
+      .form-group
+        %label{ for: 'formula' } Formula:
+        %input#formula.form-control{ type: 'text', name: 'formula', value: evaluator.formula }
+      .form-row
+        - evaluator.class::VARIABLES.each do |var_name|
+          .form-group.col
+            %label{ for: "variable-#{var_name}" } #{var_name}:
+            %input.form-control{ id: "variable-#{var_name}", type: 'text', name: "variable[#{var_name}]", value: evaluator.public_send(var_name) }
+      %button.btn.btn-primary{ type: 'submit' } Evaluate
+  - if locals[:result]
+    .card-footer
+      Result: #{result}
